@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class MaximumSegmentTreeByTree extends SegmentTreeByTree{
     /**
      * Constructor for creating a Segment Tree from an input array
@@ -13,8 +15,20 @@ public class MaximumSegmentTreeByTree extends SegmentTreeByTree{
         SegmentTreeNode result = queryRangeHelper(root, left, right);
         return result.getMax();
     }
-
     public String toString() {
-       return "";
+        // we use pre-order traversal to print the tree --> [ root, left, right ]
+        StringBuilder sb = new StringBuilder();
+        sb.append("[ ");
+        preOrderSearch(root, sb); // what would be the parameter to split by numbers only?
+        sb.append("]");
+        return sb.toString();
+    }
+    private void preOrderSearch(SegmentTreeNode root, StringBuilder stringBuilder) {
+        if (root == null) {
+            return;
         }
+        stringBuilder.append(root.getMax() + " ");
+        preOrderSearch((SegmentTreeNode) root.getLeft(), stringBuilder);
+        preOrderSearch((SegmentTreeNode) root.getRight(), stringBuilder);
+    }
 }
