@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-<<<<<<< HEAD
-      <module fileurl="file://$PROJECT_DIR$/segTreeAdam.iml" filepath="$PROJECT_DIR$/segTreeAdam.iml" />
-=======
       <module fileurl="file://$PROJECT_DIR$/segTree.iml" filepath="$PROJECT_DIR$/segTree.iml" />
->>>>>>> adamside
     </modules>
   </component>
 </project>
