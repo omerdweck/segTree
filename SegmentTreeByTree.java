@@ -1,4 +1,3 @@
-import java.util.*;
 
 /**
  * An abstract base class for a segment tree data structure implemented using a tree structure.
