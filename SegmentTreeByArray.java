@@ -119,5 +119,6 @@ public abstract class SegmentTreeByArray implements SegmentTree {
     @Override
     public int size() {
         //IMPLEMENT THE FUNCTION
+        return 0;
     }
 }
