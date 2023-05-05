@@ -19,7 +19,7 @@ public class Tester {
 
         //SegmentTrees
         testMaximumSegmentTreeByTree();
-//        testMaximumSegmentTreeByArray();
+        testMaximumSegmentTreeByArray();
         //...
         //NumberAnalyzers
 //        testNumberAnalyzerByTrees();
@@ -65,17 +65,17 @@ public class Tester {
     /**
      * Checks the MaximumSegmentTreeByArray class.
      */
-//    private static void testMaximumSegmentTreeByArray() {
-//
-//        MaximumSegmentTreeByArray mstbt = new MaximumSegmentTreeByArray(new int[]{10,15,55,15,9,12});
-//
-//        test(mstbt.toString().equals(" [ 55 55 15 15 55 15 12 10 15 - - 15 9 - - ] "),"The toString of {10,15,55,15,9,12} should be ' [ 55 55 15 15 55 15 12 10 15 - - 15 9 - - ] ' got: '" + mstbt.toString()+ " '");
-//
-//        test(mstbt.queryRange(0,1) == 15, "The max of {10,15,55,15,9,12} between indexes [0:1] should be 15");
-//
-//        mstbt.update(0,80);
-//        test(mstbt.queryRange(0,0) == 80, "After update index 0 from {10,15,55,15,9,12} to 80, the max between indexes [0:0] should be 80");
-//    }
+    private static void testMaximumSegmentTreeByArray() {
+
+        MaximumSegmentTreeByArray mstbt = new MaximumSegmentTreeByArray(new int[]{10,15,55,15,9,12});
+
+        test(mstbt.toString().equals(" [ 55 55 15 15 55 15 12 10 15 - - 15 9 - - ] "),"The toString of {10,15,55,15,9,12} should be ' [ 55 55 15 15 55 15 12 10 15 - - 15 9 - - ] ' got: '" + mstbt.toString()+ " '");
+
+        test(mstbt.queryRange(0,1) == 15, "The max of {10,15,55,15,9,12} between indexes [0:1] should be 15");
+
+        mstbt.update(0,80);
+        test(mstbt.queryRange(0,0) == 80, "After update index 0 from {10,15,55,15,9,12} to 80, the max between indexes [0:0] should be 80");
+    }
 //    /**
 //     * Checks the NumberAnalyzerByTrees class.
 //     */

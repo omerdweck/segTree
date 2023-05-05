@@ -15,11 +15,10 @@ public class SummationSegmentTreeByTree extends SegmentTreeByTree{
     }
 
     public String toString() {
-        // we use pre-order traversal to print the tree --> [ root, left, right ]
         StringBuilder sb = new StringBuilder();
-        sb.append("[ ");
+        sb.append(" [ ");
         preOrderSearch(root, sb);
-        sb.append("]");
+        sb.append("] ");
         return sb.toString();
     }
 
@@ -27,7 +26,7 @@ public class SummationSegmentTreeByTree extends SegmentTreeByTree{
         if (root == null) {
             return;
         }
-        stringBuilder.append(root.getSum() + " ");
+        stringBuilder.append(root.getSum()).append(" ");
         preOrderSearch((SegmentTreeNode) root.getLeft(), stringBuilder);
         preOrderSearch((SegmentTreeNode) root.getRight(), stringBuilder);
     }

@@ -23,46 +23,87 @@ public abstract class SegmentTreeByArray implements SegmentTree {
      */
     @Override
     public void build(int[] arr) {
+
         if (arr == null || arr.length == 0) {
             return;
         }
-        double n = arr.length;
-        int res = 0;
-        while (n > 1) {
-            n = n / 2;
+        int temp = arr.length - 1;
+        int number2 = arr.length - 1;
+        int res = 1;
+        while (temp > 1) {
+            temp = temp / 2;
             res++;
         }
-        size = 2 * 2 ^ res - 1;
+        size = 2 * (int) Math.pow(2, res) - 1;
         tree = new int[size];
-        buildHelper(tree, arr);
+        defaultArray(this.tree);
+        buildHelper(arr, 0, number2, 0);
     }
 
-    public void buildHelper(int[] tree, int[] arr) {
-        int arr_index = 0; // {1, 3, 5, 7, 9, 11, null}
-        int tree_index = 1;
-        for (int var: arr) {
-            if (arr_index == 0) {
-                tree[0] = var;
-                arr_index++;
-                continue;
-            }
-            if (arr_index % 2 == 0) {
-                tree[tree_index * 2] = var;
-                arr_index++;
-                tree_index++;
-                continue;
-            }
-            tree[tree_index * 2 - 1] = var;
-            arr_index++;
+    public void buildHelper(int[] arr, int start, int end, int index) {
+        int curr;
+        if (start == end) {
+            this.tree[index] = arr[start];
+            return;
+        }
+        if (this instanceof SummationSegmentTreeByArray) {
+            curr = sum(arr, start, end);
+        } else if (this instanceof MaximumSegmentTreeByArray) {
+            curr = max(arr, start, end);
+        } else {
+            curr = min(arr, start, end);
         }
 
-        //{null, null, null, null, null, null, null, null, null}
-
-        //IMPLEMENT THE FUNCTION
-        // You might want to add a helping functions for this.
-        // You can create the construction in a "generic" way by using functions that will give the correct value,
-        //and complete these functions in subclasses
+        int mid = (start + end) / 2;
+        buildHelper(arr, start, mid, 2 * index + 1);
+        buildHelper(arr, mid + 1, end, 2 * index + 2);
+        this.tree[index] = curr;
     }
+
+    public int sum(int[] arr, int start, int end) {
+        int res = 0;
+        for (int i = start; i <= end; i++) {
+            res += arr[i];
+        }
+        return res;
+    }
+
+    public int max(int[] arr, int start, int end) {
+        int res = Integer.MIN_VALUE;
+        for (int i = start; i <= end; i++) {
+            res = Math.max(res, arr[i]);
+        }
+        return res;
+    }
+
+    public int min(int[] arr, int start, int end) {
+        int res = Integer.MAX_VALUE;
+        for (int i = start; i <= end; i++) {
+            res = Math.min(res, arr[i]);
+        }
+        return res;
+    }
+
+    public void defaultArray(int[] tree) {
+        int i = 0;
+        for (int spot : tree) {
+            tree[i] = Integer.MIN_VALUE;
+            i++;
+        }
+    }
+
+
+
+    // You might want to add a helping functions for this.
+    // You can create the construction in a "generic" way by using functions that will give the correct value,
+    //and complete these functions in subclasses
+
+
+    //IMPLEMENT THE FUNCTION
+    // You might want to add a helping functions for this.
+    // You can create the construction in a "generic" way by using functions that will give the correct value,
+    //and complete these functions in subclasses
+
 
     /**
      * Updates the value at the specified index and updates the segment tree accordingly.
@@ -88,6 +129,7 @@ public abstract class SegmentTreeByArray implements SegmentTree {
     public int queryRange(int left, int right) {
         //IMPLEMENT THE FUNCTION
         // use the query function for the implementation.
+        return 0;
     }
 
     /**
@@ -101,6 +143,7 @@ public abstract class SegmentTreeByArray implements SegmentTree {
      * @return the result of the query operation
      */
     protected abstract int query(int node, int start, int end, int left, int right);
+
     /**
      * The members inside the array representing the segment tree are printed according to their indexes in the array.
      * When the members are surrounded by "[ ]" and exactly one space between each number and between the brackets.
@@ -109,6 +152,18 @@ public abstract class SegmentTreeByArray implements SegmentTree {
     @Override
     public String toString() {
         //IMPLEMENT THE FUNCTION
+        StringBuilder sb = new StringBuilder();
+        sb.append(" [ ");
+        for (int i = 0; i < this.tree.length; i++) {
+            if (this.tree[i] == Integer.MIN_VALUE) {
+                sb.append("-").append(" ");
+                continue;
+            }
+            sb.append(this.tree[i]);
+            sb.append(" ");
+        }
+        sb.append("] ");
+        return sb.toString();
     }
 
     /**
@@ -119,6 +174,6 @@ public abstract class SegmentTreeByArray implements SegmentTree {
     @Override
     public int size() {
         //IMPLEMENT THE FUNCTION
-        return 0;
+        return this.size;
     }
 }
