@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 class main {
     public static void main(String[] args) {
         int[] arr = {1, 3, 5, 7, 9, 11};
@@ -19,3 +20,5 @@ class main {
          System.out.println(maxTree3);
     }
 }
+=======
+>>>>>>> 0736e20a617d84fea4f0185c9db4b5cdd9de99c7
