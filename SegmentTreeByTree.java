@@ -141,7 +141,7 @@ public abstract class SegmentTreeByTree implements SegmentTree {
     @Override
     public int size() {
         /*
-         this function returns the size of the original array- the getStart() function
+         this function returns the size of the original array - the getStart() function
          return the first index of the array and getEnd() function returns the last index of the array.
          */
         if (this.root == null) {
