@@ -1,7 +1,7 @@
 class main {
     public static void main(String[] args) {
         int[] arr = {1, 3, 5, 7, 9, 11};
-        int[] arr2 = {};
+        int[] arr2 = {0, 0, 0, 0, 0, 0};
         MaximumSegmentTreeByTree maxTree = new MaximumSegmentTreeByTree(arr);;
         maxTree.update(0, 10);
         System.out.println(maxTree.queryRange(0, 5));

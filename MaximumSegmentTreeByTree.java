@@ -20,7 +20,7 @@ public class MaximumSegmentTreeByTree extends SegmentTreeByTree{
         StringBuilder sb = new StringBuilder();
         sb.append("[ ");
         preOrderSearch(root, sb); // what would be the parameter to split by numbers only?
-        sb.append("]");
+        sb.append(']');
         return sb.toString();
     }
     private void preOrderSearch(SegmentTreeNode root, StringBuilder stringBuilder) {
