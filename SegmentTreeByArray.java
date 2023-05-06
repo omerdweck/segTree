@@ -23,21 +23,15 @@ public abstract class SegmentTreeByArray implements SegmentTree {
      */
     @Override
     public void build(int[] arr) {
-
         if (arr == null || arr.length == 0) {
             return;
         }
-        int temp = arr.length - 1;
-        int number2 = arr.length - 1;
-        int res = 1;
-        while (temp > 1) {
-            temp = temp / 2;
-            res++;
-        }
-        size = 2 * (int) Math.pow(2, res) - 1;
+        int arrayLength = arr.length - 1;
+        this.size = arr.length;
+        size = 2 * (int) Math.pow(2, Math.ceil(Math.log(arrayLength) / Math.log(2))) - 1;
         tree = new int[size];
         defaultArray(this.tree);
-        buildHelper(arr, 0, number2, 0);
+        buildHelper(arr, 0, arrayLength, 0);
     }
 
     public void buildHelper(int[] arr, int start, int end, int index) {
@@ -46,51 +40,23 @@ public abstract class SegmentTreeByArray implements SegmentTree {
             this.tree[index] = arr[start];
             return;
         }
-        if (this instanceof SummationSegmentTreeByArray) {
-            curr = sum(arr, start, end);
-        } else if (this instanceof MaximumSegmentTreeByArray) {
-            curr = max(arr, start, end);
-        } else {
-            curr = min(arr, start, end);
-        }
-
+        curr = calcValOfNode(arr, start, end);
         int mid = (start + end) / 2;
         buildHelper(arr, start, mid, 2 * index + 1);
         buildHelper(arr, mid + 1, end, 2 * index + 2);
         this.tree[index] = curr;
     }
 
-    public int sum(int[] arr, int start, int end) {
-        int res = 0;
-        for (int i = start; i <= end; i++) {
-            res += arr[i];
-        }
-        return res;
-    }
-
-    public int max(int[] arr, int start, int end) {
-        int res = Integer.MIN_VALUE;
-        for (int i = start; i <= end; i++) {
-            res = Math.max(res, arr[i]);
-        }
-        return res;
-    }
-
-    public int min(int[] arr, int start, int end) {
-        int res = Integer.MAX_VALUE;
-        for (int i = start; i <= end; i++) {
-            res = Math.min(res, arr[i]);
-        }
-        return res;
-    }
 
     public void defaultArray(int[] tree) {
         int i = 0;
-        for (int spot : tree) {
+        for (int spot_iter : tree) {
             tree[i] = Integer.MIN_VALUE;
             i++;
         }
     }
+
+    public abstract int calcValOfNode(int[] arr, int start, int end);
 
 
 
@@ -113,10 +79,55 @@ public abstract class SegmentTreeByArray implements SegmentTree {
      */
     @Override
     public void update(int index, int value) {
-        //IMPLEMENT THE FUNCTION
-        // You might want to add a helping functions for this.
+        this.updateHelper(0, size - 1, findTreeIndex(index), 0, index, value);
     }
 
+    private void updateHelper(int start, int end, int treeIndex, int treeLevel, int index, int value) {
+        if (start == end) {
+            this.tree[treeIndex] = value;
+            fixArrayAfterUpdate(treeIndex);
+            return;
+        }
+        int mid = start + (end - start) / 2;
+        if (treeIndex <= mid) {
+            updateHelper(start, mid, treeIndex, treeLevel + 1, index, value);
+        } else {
+            updateHelper(mid + 1, end, treeIndex, treeLevel + 1, index, value);
+        }
+    }
+
+    protected int findTreeIndex(int index) {
+        int curr = 0;
+        int counter = -1;
+        boolean[] visitedLeft = new boolean[size()];
+        boolean[] visitedRight = new boolean[size()];
+        while (counter != index && curr <= size) {
+            if (curr >= size - size / 2 - 1 && this.tree[curr] != Integer.MIN_VALUE || this.tree[2 * curr + 1] == Integer.MIN_VALUE && this.tree[2 * curr + 2] == Integer.MIN_VALUE) {
+                counter++;
+                visitedLeft[curr] = true;
+                visitedRight[curr] = true;
+                if (counter == index) {
+                    return curr;
+                }
+            }
+            if (curr <= size - size / 2 - 1 && !visitedLeft[curr]) {
+                visitedLeft[curr] = true;
+                curr = 2 * curr + 1;
+            } else if (visitedLeft[curr] && !visitedRight[curr]) {
+                visitedRight[curr] = true;
+                curr = 2 * curr + 2;
+            } else {
+                if (curr % 2 == 0) {
+                    curr = curr / 2 - 1;
+                } else {
+                    curr = curr / 2;
+                }
+            }
+        }
+        return curr; // won't get here because of the assigment guidelines.
+    }
+
+    protected abstract void fixArrayAfterUpdate(int fromIndex);
 
     /**
      * Queries the segment tree for a range of elements.
@@ -127,9 +138,7 @@ public abstract class SegmentTreeByArray implements SegmentTree {
      */
     @Override
     public int queryRange(int left, int right) {
-        //IMPLEMENT THE FUNCTION
-        // use the query function for the implementation.
-        return 0;
+        return query(0, 0, size - 1, left, right);
     }
 
     /**
@@ -154,12 +163,12 @@ public abstract class SegmentTreeByArray implements SegmentTree {
         //IMPLEMENT THE FUNCTION
         StringBuilder sb = new StringBuilder();
         sb.append(" [ ");
-        for (int i = 0; i < this.tree.length; i++) {
-            if (this.tree[i] == Integer.MIN_VALUE) {
+        for (int nodeVal : this.tree) {
+            if (nodeVal == Integer.MIN_VALUE) {
                 sb.append("-").append(" ");
                 continue;
             }
-            sb.append(this.tree[i]);
+            sb.append(nodeVal);
             sb.append(" ");
         }
         sb.append("] ");

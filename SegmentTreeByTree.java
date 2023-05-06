@@ -32,8 +32,6 @@ public abstract class SegmentTreeByTree implements SegmentTree {
     }
 
     private SegmentTreeNode buildHelper(int[] arr, int start, int end) {
-        // what does this function do? - it builds the tree, it is a recursive function that builds the tree from the bottom up by calling itself on the left and right half of the array and then combining the results into a node
-        //
         if (start == end) {
             return new SegmentTreeNode(start, end, arr[start], arr[start], arr[start], null, null);
         }
@@ -55,11 +53,7 @@ public abstract class SegmentTreeByTree implements SegmentTree {
         } else if (rightChild == null) {
             return leftChild.getMax();
         }
-        if (leftChild.getMax() > rightChild.getMax()) {
-            return leftChild.getMax();
-        } else {
-            return rightChild.getMax();
-        }
+        return Math.max(leftChild.getMax(), rightChild.getMax());
     }
     private int sum(SegmentTreeNode leftChild, SegmentTreeNode rightChild, int self) {
         if (leftChild == null && rightChild == null) {
@@ -80,11 +74,7 @@ public abstract class SegmentTreeByTree implements SegmentTree {
         } else if (rightChild == null) {
             return leftChild.getMin();
         }
-        if (leftChild.getMin() < rightChild.getMin()) {
-            return leftChild.getMin();
-        } else {
-            return rightChild.getMin();
-        }
+        return Math.min(leftChild.getMin(), rightChild.getMin());
     }
 
 
@@ -169,11 +159,6 @@ public abstract class SegmentTreeByTree implements SegmentTree {
      * @return A SegmentTreeNode that contains the minimum, maximum and sum values for the given range
      */
     protected SegmentTreeNode queryRangeHelper(SegmentTreeNode node, int left, int right) {
-//        if (node == null || left > node.getEnd() || right < node.getStart()) {
-//            return null;
-//
-//        }
-
         if (left <= node.getStart() && right >= node.getEnd()) {
             return node;
         }
