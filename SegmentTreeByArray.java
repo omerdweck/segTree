@@ -27,8 +27,7 @@ public abstract class SegmentTreeByArray implements SegmentTree {
             return;
         }
         int arrayLength = arr.length - 1;
-        this.size = arr.length;
-        size = 2 * (int) Math.pow(2, Math.ceil(Math.log(arrayLength) / Math.log(2))) - 1;
+        size = 2 * (int) Math.pow(2, Math.ceil(Math.log(arr.length) / Math.log(2))) - 1;
         tree = new int[size];
         defaultArray(this.tree);
         buildHelper(arr, 0, arrayLength, 0);

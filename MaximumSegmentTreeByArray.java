@@ -23,6 +23,11 @@ public class MaximumSegmentTreeByArray extends SegmentTreeByArray {
 
     @Override
     protected void fixArrayAfterUpdate(int fromIndex) {
+        /**
+         * After update, the value of the node is changed, so we need to update the value of its parent node
+         * until the root node.
+         * @param fromIndex the index of the node whose value is changed
+         */
         while (fromIndex > 0) {
             fromIndex = (fromIndex - 1) / 2;
             this.tree[fromIndex] = Math.max(this.tree[2 * fromIndex + 1], this.tree[2 * fromIndex + 2]);

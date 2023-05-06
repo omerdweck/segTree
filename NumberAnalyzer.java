@@ -27,31 +27,41 @@ public abstract class NumberAnalyzer implements Iterable<Integer>, Comparator<In
             }
 
             public Integer next() {
-                return numbers[index++];
+                if (!hasNext()) throw new java.util.NoSuchElementException("No more numbers to iterate over!");
+                int res = numbers[index];
+                index++;
+                return res;
             }
 
             public void remove() {
-                throw new UnsupportedOperationException();
+                throw new UnsupportedOperationException("Why are you trying to kill my numbers? They are innocent!");
             }
         };
     }
-    public Comparator<Integer> comparator() {
-        Comparator<Integer> comparator = new Comparator<Integer>() {
-            public int compare(Integer a, Integer b) {
-                if (a % 2 == 1 && b % 2 == 0) {
-                    // a is odd and b is even, so b is bigger than a
-                    return 1;
-                } else if (a % 2 == 0 && b % 2 == 1) {
-                    // a is even and b is odd, so a is bigger than b
-                    return -1;
-                } else {
-                    // both a and b are odd or both are even, so compare them normally
-                    return a.compareTo(b); // returns 0
-                }
+    protected int[] NAIterator(){
+        int[] temp_arr = new int[numbers.length];
+        int count = 0;
+        Iterator<Integer> it = iterator();
+        while (it.hasNext()) {
+            temp_arr[count] = it.next();
+            count++;
             }
-        };
-        return comparator;
+        return temp_arr;
+        }
+
+
+    public int compare(Integer a, Integer b) {
+        if (a % 2 == 1 && b % 2 == 0) {
+            // a is odd and b is even, so b is bigger than a
+            return 1;
+        } else if (a % 2 == 0 && b % 2 == 1) {
+            // a is even and b is odd, so a is bigger than b
+            return -1;
+        } else {
+            return a.compareTo(b);
+        }
     }
+
 
 
     /**
