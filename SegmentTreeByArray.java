@@ -96,6 +96,13 @@ public abstract class SegmentTreeByArray implements SegmentTree {
     }
 
     protected int findTreeIndex(int index) {
+        /**
+         * This function finds the index of the element in the tree array according to the index of the element in the
+         * original array. The function uses the fact that the tree is a complete binary tree even if the original array
+         * is not a complete binary tree.
+         * @param index the index of the element in the original array
+         * @return the index of the element in the tree array
+         */
         int curr = 0;
         int counter = -1;
         boolean[] visitedLeft = new boolean[size()];

@@ -19,7 +19,18 @@ public abstract class NumberAnalyzer implements Iterable<Integer>, Comparator<In
     }
 
     public Iterator<Integer> iterator() {
+        /**
+         * Returns an iterator over the collection of integers.
+         */
         return new Iterator<Integer>() {
+            /**
+             * an anonymous class that implements the Iterator interface.
+             * It has a single field, index, which keeps track of the current index in the array.
+             * The hasNext() method returns true if the index is less than the length of the array,
+             * and false otherwise. The next() method returns the current number in the array and increments the index.
+             * The remove() method throws an UnsupportedOperationException because its implementation is not required,
+             * yet it is up to convention to throw this exception.
+             */
             private int index = 0;
 
             public boolean hasNext() {
@@ -39,6 +50,11 @@ public abstract class NumberAnalyzer implements Iterable<Integer>, Comparator<In
         };
     }
     protected int[] NAIterator(){
+        /**
+         * Returns an array of integers. This is a helper method for the subclasses.
+         * It is used to iterate over the collection of integers. It creates a new array of integers, and then
+         * iterates over the collection and adds each integer to the array.
+         */
         int[] temp_arr = new int[numbers.length];
         int count = 0;
         Iterator<Integer> it = iterator();
@@ -51,6 +67,10 @@ public abstract class NumberAnalyzer implements Iterable<Integer>, Comparator<In
 
 
     public int compare(Integer a, Integer b) {
+        /**
+         * Implements the compare method of the Comparator interface. It compares two integers and returns
+         * 1, -1 or 0 according to the logic specified in the assignment guidelines.
+         */
         if (a % 2 == 1 && b % 2 == 0) {
             // a is odd and b is even, so b is bigger than a
             return 1;
